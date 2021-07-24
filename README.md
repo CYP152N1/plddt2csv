@@ -29,6 +29,7 @@ output pdb file contain plddt value in B factor region.
 High plddt value means high condidence of the output structure.
 You can check plddt put the colored by b-factor on the structure using model viewer such as pymol.  
 
-![image](https://user-images.githubusercontent.com/87903303/126872957-daa9e8cd-594f-4fbe-8703-cfbbe0cf10c7.png)
+![ppp](https://user-images.githubusercontent.com/87903303/126873215-8ed0f006-525d-45ae-abb4-ac8d0bab71f3.png)
 
 arguments can be chack by $ Python3 /path/to/storage/plddt2csv.py -h
+
