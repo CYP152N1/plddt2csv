@@ -62,7 +62,7 @@ def read():
         cnn=pickle.load(cn)
         sequ=cnn['residue_index']
         rein=np.array(list(str(cnn['sequence'][0])[2:-1]))
-        twoda=np.column_stack((sequ,rein))
+        twoda=np.column_stack((sequ+1,rein))
         pass
     for i in range(namen):
         www=str(int(float(i)+1))
