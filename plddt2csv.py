@@ -63,6 +63,7 @@ def read():
         sequ=cnn['residue_index']
         rein=np.array(list(str(cnn['sequence'][0])[2:-1]))
         twoda=np.column_stack((sequ+1,rein))
+        cn.close()
         pass
     for i in range(namen):
         www=str(int(float(i)+1))
@@ -71,6 +72,7 @@ def read():
             pld1=np.round(c1n['plddt'], decimals=2)
             twoda=np.column_stack((twoda,pld1))
             pd1=['{:.2f}'.format(n) for n in pld1.tolist()]
+            c1.close()
             pass
         ll1=""
         with open(cpass+"/relaxed_model_"+www+".pdb", mode='r') as g1:
@@ -83,6 +85,7 @@ def read():
                     ll1+=line
                     pass
                 pass
+            g1.close()
             pass
         with open(cpass+"/relaxed_"+str(lpass[-1])+"_"+www+".pdb", mode='w') as i:
             i.write(ll1)
