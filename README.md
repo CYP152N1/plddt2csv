@@ -13,13 +13,22 @@ $ cd /path/to/output/of/Alphafold2
 
 $Python3 /path/to/storage/plddt2csv.py
 
+
+![image](https://user-images.githubusercontent.com/87903303/126872882-a89776f9-50aa-434d-b773-f96bf775f2fb.png)
+
 --------------
 This program generates [plddt.csv] and [relaxed_"current folder name"_?.pdb] 
+
 form [features.pkl], [result_model_?.pkl] and [relaxed_model_?.pdb]
 
 plddt.csv show plddt value of each residue of all relaxed models.
+
+![image](https://user-images.githubusercontent.com/87903303/126872927-1b69da3d-35a6-4978-ac5b-22ddf87b9f69.png)
+
 output pdb file contain plddt value in B factor region.
 High plddt value means high condidence of the output structure.
 You can check plddt put the colored by b-factor on the structure using model viewer such as pymol.  
+
+![image](https://user-images.githubusercontent.com/87903303/126872957-daa9e8cd-594f-4fbe-8703-cfbbe0cf10c7.png)
 
 arguments can be chack by $ Python3 /path/to/storage/plddt2csv.py -h
