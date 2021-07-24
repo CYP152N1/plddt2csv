@@ -11,7 +11,7 @@ $ git clone https://github.com/CYP152N1/plddt2csv
 
 $ cd /path/to/output/of/Alphafold2
 
-$Python3 /path/to/storage/plddt2csv.py
+$ python3 /path/to/storage/plddt2csv.py
 
 
 ![image](https://user-images.githubusercontent.com/87903303/126872882-a89776f9-50aa-434d-b773-f96bf775f2fb.png)
