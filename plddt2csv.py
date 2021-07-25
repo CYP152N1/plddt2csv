@@ -7,6 +7,7 @@ import sys
 import time
 import numpy as np
 import argparse
+from scipy.stats import rankdata
 # Import
 
 # Header
@@ -28,6 +29,7 @@ parser = argparse.ArgumentParser(description="The program extract plddt from [re
 parser.add_argument('-i', default='result_model', help='input XXXXX if [XXXXX_Y.pkl]; ex) result_model (def.)')
 parser.add_argument('-n', default='5', help='input Y if you want open [XXXXX_1.pkl,XXXXX_2.pkl ... ,XXXXX_5.pkl]; ex) 5 (def.)')
 parser.add_argument('-o', default='plddt', help='input XXXXX if you want to name the output [XXXXX.csv]; ex) plddt (def.)')
+parser.add_argument('-d', default='', help='ignoreed residue number for average pLDDTs caliculation to determin the ranking of models [1-5_56-75_105-135]; ex) "" (def.)')
 args = parser.parse_args()
 # Argument & Help
 
@@ -50,6 +52,24 @@ print("Output file name:"+str(oname)+".csv")
 print("It can be changed by [-o "+oname+"]")
 print("")
 
+# Igunore residue
+dres=str(args.d)
+ures=dres.split("_")
+print("Igunore residues:"+str(ures))
+sres=[]
+for i in range(len(ures)):
+    hres=[]
+    hres=ures[i].split("-")
+    sres.extend(hres)
+fres=list(filter(None,sres))
+mres=np.empty_like(fres)
+mres[::1]=0
+mres[::2]=1
+fres_f = np.array(fres).astype(np.float32)
+mres_f = mres.astype(np.float32)
+ares=fres_f-mres_f
+print("ON/OFF pisition:"+str(ares))
+
 #l-----------------------------------------------l
 #l           Valiable information                l
 #l-----------------------------------------------l
@@ -65,10 +85,31 @@ def read():
         twoda=np.column_stack((sequ+1,rein))
         cn.close()
         pass
+    eres=np.empty_like(rein)
+    for i in range(len(eres)):
+        cococo=0
+        for j in range(len(ares)):
+            if i > int(ares[j])-1:
+                cococo+=1
+                pass
+            pass
+        if cococo % 2 == 0:
+            eres[i]=1
+        else:
+            eres[i]=0
+        pass
+    print(eres)
+    print()
+    eres_f = eres.astype(np.float32)
+    plddts=np.empty(namen)
     for i in range(namen):
         www=str(int(float(i)+1))
         with open(cpass+"/"+iname+"_"+www+".pkl", 'rb') as c1:
             c1n=pickle.load(c1)
+            c1n_f = c1n['plddt'].astype(np.float32)
+            na_mul=c1n_f*eres_f
+            plddts[i]=np.sum(na_mul)/np.sum(eres_f)
+            print(na_mul)
             pld1=np.round(c1n['plddt'], decimals=2)
             twoda=np.column_stack((twoda,pld1))
             pd1=['{:.2f}'.format(n) for n in pld1.tolist()]
@@ -93,7 +134,13 @@ def read():
             pass
         print("Save:"+cpass+"/relaxed_"+str(lpass[-1])+"_"+www+".pdb")
         pass
-    print(twoda)
+    print("------------")
+    print()
+    print("numbers of residues: "+str(int(np.sum(eres_f)))+" (Ignore: "+str(ures)+")")
+    print("Rank  :"+str(rankdata(list(plddts))))
+    np.set_printoptions(formatter={'float': '{:.1f}'.format})
+    twoda=np.column_stack((twoda,eres))
+    print("plddts:"+str(plddts))
     np.savetxt(cpass+'/'+oname+'.csv',twoda,delimiter=',',fmt="%s")
 
 print("------------")
