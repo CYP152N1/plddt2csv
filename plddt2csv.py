@@ -78,6 +78,7 @@ print("ON/OFF pisition:"+str(ares))
 def read():    
     cpass=os.getcwd()
     lpass=cpass.split("/")
+    
     # Get sequene from features.pkl 
     with open(cpass+"/features.pkl", 'rb') as cn:
         cnn=pickle.load(cn)
@@ -105,6 +106,7 @@ def read():
     # Make array to determine the caliculation range of pLDDT average
     print(eres)
     eres_f = eres.astype(np.float32)
+    
     plddts=np.empty(namen)
     # Repeat for the caliculation of all models
     for i in range(namen):
@@ -123,6 +125,7 @@ def read():
             c1.close()
             pass
         # Read pLDDT from result_model_?.pkl
+        
         ll1=""
         # Write pLDDT in the PDB_Bfactor
         with open(cpass+"/relaxed_model_"+www+".pdb", mode='r') as g1:
@@ -145,6 +148,7 @@ def read():
         print("Save:"+cpass+"/relaxed_"+str(lpass[-1])+"_"+www+".pdb")
         pass
     print("------------")
+    
     # Caliculation of pLDDT rank without specificic range (-d argument)
     print("number of calculated residues: "+str(int(np.sum(eres_f)))+" (Ignore: "+str(ures)+")")
     print("Rank  :"+str(rankdata(list(plddts))))
@@ -152,10 +156,10 @@ def read():
     twoda=np.column_stack((twoda,eres))
     print("plddts:"+str(plddts))
     # Caliculation of pLDDT rank without specificic range (-d argument)
+    
     # Write pLDDT in csv file  
     np.savetxt(cpass+'/'+oname+'.csv',twoda,delimiter=',',fmt="%s")
     pass
-
 
 #l-----------------------------------------------l
 #l                   Execution                   l
