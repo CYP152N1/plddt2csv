@@ -19,7 +19,7 @@ print("Start:"+str(sys.argv))
 print("Ver.2_(2021Jul.)")
 print("by Hiroki Onoda, YCU")
 print("------------")
-print("The program extract plddt from [result_model.pkl] to [.csv] ")
+print("The program extract plddt values from [result_model.pkl] to [.csv] ")
 print("for Alphafold")
 print("------------")
 # Header
