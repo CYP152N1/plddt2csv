@@ -151,7 +151,7 @@ def read():
     
     # Caliculation of pLDDT rank without specificic range (-d argument)
     print("number of calculated residues: "+str(int(np.sum(eres_f)))+" (Ignore: "+str(ures)+")")
-    print("Rank  :"+str(rankdata(list(plddts))))
+    print("Rank  :"+str(rankdata(-plddts)))
     np.set_printoptions(formatter={'float': '{:.1f}'.format})
     twoda=np.column_stack((twoda,eres))
     print("plddts:"+str(plddts))
