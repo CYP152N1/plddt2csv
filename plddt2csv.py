@@ -29,7 +29,7 @@ parser = argparse.ArgumentParser(description="The program extract plddt from [re
 parser.add_argument('-i', default='result_model', help='input XXXXX if [XXXXX_Y.pkl]; ex) result_model (def.)')
 parser.add_argument('-n', default='5', help='input Y if you want open [XXXXX_1.pkl,XXXXX_2.pkl ... ,XXXXX_5.pkl]; ex) 5 (def.)')
 parser.add_argument('-o', default='plddt', help='input XXXXX if you want to name the output [XXXXX.csv]; ex) plddt (def.)')
-parser.add_argument('-d', default='', help='ignoreed residue number for average pLDDTs caliculation to determin the ranking of models [1-5_56-75_105-135]; ex) "" (def.)')
+parser.add_argument('-d', default='', help='ignoreed residue number for average pLDDTs caliculation to determined the ranking of models [1-5_56-75_105-135]; ex) "" (def.)')
 args = parser.parse_args()
 # Argument & Help
 
