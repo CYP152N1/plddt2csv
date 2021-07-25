@@ -136,7 +136,7 @@ def read():
         pass
     print("------------")
     print()
-    print("numbers of residues: "+str(int(np.sum(eres_f)))+" (Ignore: "+str(ures)+")")
+    print("number of residues: "+str(int(np.sum(eres_f)))+" (Ignore: "+str(ures)+")")
     print("Rank  :"+str(rankdata(list(plddts))))
     np.set_printoptions(formatter={'float': '{:.1f}'.format})
     twoda=np.column_stack((twoda,eres))
