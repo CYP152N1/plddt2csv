@@ -20,7 +20,7 @@ print("Ver.2_(2021Jul.)")
 print("by Hiroki Onoda, YCU")
 print("------------")
 print("The program extract plddt values from [result_model.pkl] to [.csv] ")
-print("for Alphafold")
+print("for Alphafold2")
 print("------------")
 # Header
 
@@ -43,7 +43,7 @@ print("Input file name:"+str(iname)+"_?.pkl")
 print("It can be changed by [-i "+iname+"]")
 print("")
 
-# Number of model
+# Number of models
 namen=int(str(args.n))
 
 # Output file name
@@ -99,7 +99,6 @@ def read():
             eres[i]=0
         pass
     print(eres)
-    print()
     eres_f = eres.astype(np.float32)
     plddts=np.empty(namen)
     for i in range(namen):
@@ -109,7 +108,6 @@ def read():
             c1n_f = c1n['plddt'].astype(np.float32)
             na_mul=c1n_f*eres_f
             plddts[i]=np.sum(na_mul)/np.sum(eres_f)
-            print(na_mul)
             pld1=np.round(c1n['plddt'], decimals=2)
             twoda=np.column_stack((twoda,pld1))
             pd1=['{:.2f}'.format(n) for n in pld1.tolist()]
@@ -142,7 +140,7 @@ def read():
     twoda=np.column_stack((twoda,eres))
     print("plddts:"+str(plddts))
     np.savetxt(cpass+'/'+oname+'.csv',twoda,delimiter=',',fmt="%s")
-
+    pass
 print("------------")
 read()
 print("------------")
