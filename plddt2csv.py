@@ -127,25 +127,38 @@ def read():
         # Read pLDDT from result_model_?.pkl
         
         ll1=""
+        ss1=""
         # Write pLDDT in the PDB_Bfactor
         with open(cpass+"/relaxed_model_"+www+".pdb", mode='r') as g1:
             for line in g1:
                 if  line[0:4]=="ATOM":
                     pdd1=pd1[int(float(line[22:26].strip())-1)]
                     ll1+=line[0:60]+" "*(6-len(pdd1))+pdd1+line[66:]
+                    if int(eres[int(float(line[22:26].strip())-1)])==1:
+                        print(eres[int(float(line[22:26].strip())-1)])
+                        ss1+=line[0:60]+" "*(6-len(pdd1))+pdd1+line[66:]
+                    else:
+                        pass
                     pass
                 else:
                     ll1+=line
+                    ss1+=line
                     pass
                 pass
             g1.close()
+            print(ss1)
             pass
         with open(cpass+"/relaxed_"+str(lpass[-1])+"_"+www+".pdb", mode='w') as i:
             i.write(ll1)
             i.close()
             pass
+        with open(cpass+"/"+str(lpass[-1])+"_"+www+"_pLDDT"+str(int(np.sum(na_mul)/np.sum(eres_f)))+".pdb", mode='w') as i:
+            i.write(ss1)
+            i.close()
+            pass
         # Write pLDDT in the PDB_Bfactor
         print("Save:"+cpass+"/relaxed_"+str(lpass[-1])+"_"+www+".pdb")
+        print("Save:"+cpass+"/"+str(lpass[-1])+"_"+www+"_pLDDT"+str(int(np.sum(na_mul)/np.sum(eres_f)))+".pdb")
         pass
     print("------------")
     
