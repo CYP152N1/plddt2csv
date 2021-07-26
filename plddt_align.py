@@ -170,7 +170,7 @@ def read():
     # Caliculation of pLDDT rank without specificic range (-d argument)
     
     
-    # Model alinment
+    # Model alignment
     import math
     o4=int(len(eres)/4)
     w4=int(o4*2)
