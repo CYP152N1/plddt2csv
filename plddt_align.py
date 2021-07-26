@@ -106,62 +106,9 @@ def read():
     # Make array to determine the caliculation range of pLDDT average
     print(eres)
     eres_f = eres.astype(np.float32)
-    
-    plddts=np.empty(namen)
-    # Repeat for the caliculation of all models
-    for i in range(namen):
-        www=str(int(float(i)+1))
-        # Read pLDDT from result_model_?.pkl
-        with open(cpass+"/"+iname+"_"+www+".pkl", 'rb') as c1:
-            c1n=pickle.load(c1)
-            c1n_f = c1n['plddt'].astype(np.float32)
-            # Caliculation of average pLDDT
-            na_mul=c1n_f*eres_f
-            plddts[i]=np.sum(na_mul)/np.sum(eres_f)
-            # Caliculation of average pLDDT
-            pld1=np.round(c1n['plddt'], decimals=2)
-            twoda=np.column_stack((twoda,pld1))
-            pd1=['{:.2f}'.format(n) for n in pld1.tolist()]
-            c1.close()
-            pass
-        # Read pLDDT from result_model_?.pkl
-        
-        ll1=""
-        ss1=""
-        # Write pLDDT in the PDB_Bfactor
-        with open(cpass+"/relaxed_model_"+www+".pdb", mode='r') as g1:
-            for line in g1:
-                if  line[0:4]=="ATOM":
-                    pdd1=pd1[int(float(line[22:26].strip())-1)]
-                    ll1+=line[0:60]+" "*(6-len(pdd1))+pdd1+line[66:]
-                    if int(eres[int(float(line[22:26].strip())-1)])==1:
-                        ss1+=line[0:60]+" "*(6-len(pdd1))+pdd1+line[66:]
-                    else:
-                        pass
-                    pass
-                else:
-                    ll1+=line
-                    ss1+=line
-                    pass
-                pass
-            g1.close()
-            pass
-        with open(cpass+"/relaxed_"+str(lpass[-1])+"_"+www+".pdb", mode='w') as i:
-            i.write(ll1)
-            i.close()
-            pass
-        with open(cpass+"/"+str(lpass[-1])+"_"+www+"_pLDDT"+str(int(np.sum(na_mul)/np.sum(eres_f)))+".pdb", mode='w') as i:
-            i.write(ss1)
-            i.close()
-            pass
-        # Write pLDDT in the PDB_Bfactor
-        print("Save:"+cpass+"/relaxed_"+str(lpass[-1])+"_"+www+".pdb")
-        print("Save:"+cpass+"/"+str(lpass[-1])+"_"+www+"_pLDDT"+str(int(np.sum(na_mul)/np.sum(eres_f)))+".pdb")
-        pass
-    print("------------")
-    
-    
-    
+
+    np.set_printoptions(formatter={'float': '{:.1f}'.format})
+
     # Model alignment
     import math
     o4=int(len(eres)/4)
@@ -170,7 +117,7 @@ def read():
     xyz1=np.zeros((4,3),dtype=float)
     for i in range(namen):
         www=str(int(float(i)+1))
-        with open(cpass+"/relaxed_"+str(lpass[-1])+"_"+www+".pdb", mode='r') as g1:
+        with open(cpass+"/relaxed_model_"+www+".pdb", mode='r') as g1:
             for line in g1:
                 if line[0:4]=="ATOM":
                     if o4==int(float(line[22:26].strip())):
@@ -282,7 +229,7 @@ def read():
         print("------------")
         xyz=np.zeros((1,3),dtype=float)
         liii=""
-        with open(cpass+"/relaxed_"+str(lpass[-1])+"_"+www+".pdb", mode='r') as g1:
+        with open(cpass+"/relaxed_model_"+www+".pdb", mode='r') as g1:
             for line in g1:
                 if line[0:4]=="ATOM":
                     xyz[::1]=0
@@ -304,9 +251,68 @@ def read():
             i.close()
             pass
         pass
+
+
+    
+    plddts=np.empty(namen)
+    # Repeat for the caliculation of all models
+    for i in range(namen):
+        www=str(int(float(i)+1))
+        # Read pLDDT from result_model_?.pkl
+        with open(cpass+"/"+iname+"_"+www+".pkl", 'rb') as c1:
+            c1n=pickle.load(c1)
+            c1n_f = c1n['plddt'].astype(np.float32)
+            # Caliculation of average pLDDT
+            na_mul=c1n_f*eres_f
+            plddts[i]=np.sum(na_mul)/np.sum(eres_f)
+            # Caliculation of average pLDDT
+            pld1=np.round(c1n['plddt'], decimals=2)
+            twoda=np.column_stack((twoda,pld1))
+            pd1=['{:.2f}'.format(n) for n in pld1.tolist()]
+            c1.close()
+            pass
+        # Read pLDDT from result_model_?.pkl
+        
+        ll1=""
+        ss1=""
+        # Write pLDDT in the PDB_Bfactor
+        with open(cpass+"/align_"+str(lpass[-1])+"_"+www+".pdb", mode='r') as g1:
+            for line in g1:
+                if  line[0:4]=="ATOM":
+                    pdd1=pd1[int(float(line[22:26].strip())-1)]
+                    ll1+=line[0:60]+" "*(6-len(pdd1))+pdd1+line[66:]
+                    if int(eres[int(float(line[22:26].strip())-1)])==1:
+                        ss1+=line[0:60]+" "*(6-len(pdd1))+pdd1+line[66:]
+                    else:
+                        pass
+                    pass
+                else:
+                    ll1+=line
+                    ss1+=line
+                    pass
+                pass
+            g1.close()
+            pass
+        with open(cpass+"/align_"+str(lpass[-1])+"_"+www+".pdb", mode='w') as i:
+            i.write(ll1)
+            i.close()
+            pass
+        with open(cpass+"/"+str(lpass[-1])+"_"+www+"_pLDDT"+str(int(np.sum(na_mul)/np.sum(eres_f)))+".pdb", mode='w') as i:
+            i.write(ss1)
+            i.close()
+            pass
+        # Write pLDDT in the PDB_Bfactor
+        print("Save:"+cpass+"/align_"+str(lpass[-1])+"_"+www+".pdb")
+        print("Save:"+cpass+"/"+str(lpass[-1])+"_"+www+"_pLDDT"+str(int(np.sum(na_mul)/np.sum(eres_f)))+".pdb")
+        pass
+    print("------------")
+    
+    
+
     
     # Caliculation of pLDDT rank without specificic range (-d argument)
     print("number of calculated residues: "+str(int(np.sum(eres_f)))+" (Ignore: "+str(ures)+")")
+    np.set_printoptions(formatter={'float': '{:.0f}'.format})
     print("Rank  :"+str(rankdata(-plddts)))
     np.set_printoptions(formatter={'float': '{:.1f}'.format})
     twoda=np.column_stack((twoda,eres))
