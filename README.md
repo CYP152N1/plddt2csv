@@ -18,7 +18,7 @@ avarage pLDDT will be caliculate without residue number from 1 to 30 and from 53
 
 ["current folder name"_?_pLDDT??.pdb] will be also generated. default value is ""
 
-![image](https://user-images.githubusercontent.com/87903303/126935361-d975e131-d49a-429c-abe1-72a04e4702ca.png)
+![image](https://user-images.githubusercontent.com/87903303/126935487-5393b821-93ae-4460-a4dc-9a1034ea904e.png)
 
 --------------
 How to Use
