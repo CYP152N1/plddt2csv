@@ -7,6 +7,19 @@ Introduction movie was upload on Youtube.
 
 https://youtu.be/0ozOPnC6IWk
 
+Update information
+--------------
+
+-d arguments was introduced.
+
+ex) plddt2csv.py -d 1-30_53-
+
+avarage pLDDT will be caliculate without residue number from 1 to 30 and from 53 to C-terminus. 
+
+["current folder name"_?_pLDDT??.pdb] will be also generated. default value is ""
+
+![image](https://user-images.githubusercontent.com/87903303/126935361-d975e131-d49a-429c-abe1-72a04e4702ca.png)
+
 --------------
 How to Use
 --------------
@@ -18,8 +31,6 @@ $ cd /path/to/output/of/Alphafold2
 
 $ python3 /path/to/storage/plddt2csv/plddt2csv.py
 
-
-![image](https://user-images.githubusercontent.com/87903303/126872882-a89776f9-50aa-434d-b773-f96bf775f2fb.png)
 
 --------------
 This program generates [plddt.csv] and [relaxed_"current folder name"_?.pdb] 
