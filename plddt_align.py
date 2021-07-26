@@ -307,7 +307,7 @@ def read():
                     liii+=line
                 pass
             pass
-        with open(cpass+"/rotation_"+str(lpass[-1])+"_"+www+".pdb", mode='w') as i:
+        with open(cpass+"/align_"+str(lpass[-1])+"_"+www+".pdb", mode='w') as i:
             i.write(liii)
             i.close()
             pass
