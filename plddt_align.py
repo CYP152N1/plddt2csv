@@ -160,14 +160,6 @@ def read():
         pass
     print("------------")
     
-    # Caliculation of pLDDT rank without specificic range (-d argument)
-    print("number of calculated residues: "+str(int(np.sum(eres_f)))+" (Ignore: "+str(ures)+")")
-    print("Rank  :"+str(rankdata(-plddts)))
-    np.set_printoptions(formatter={'float': '{:.1f}'.format})
-    twoda=np.column_stack((twoda,eres))
-    print("plddts:"+str(plddts))
-    print("------------")
-    # Caliculation of pLDDT rank without specificic range (-d argument)
     
     
     # Model alignment
@@ -312,6 +304,15 @@ def read():
             i.close()
             pass
         pass
+    
+    # Caliculation of pLDDT rank without specificic range (-d argument)
+    print("number of calculated residues: "+str(int(np.sum(eres_f)))+" (Ignore: "+str(ures)+")")
+    print("Rank  :"+str(rankdata(-plddts)))
+    np.set_printoptions(formatter={'float': '{:.1f}'.format})
+    twoda=np.column_stack((twoda,eres))
+    print("plddts:"+str(plddts))
+    print("------------")
+    # Caliculation of pLDDT rank without specificic range (-d argument)
     
     # Write pLDDT in csv file  
     np.savetxt(cpass+'/'+oname+'.csv',twoda,delimiter=',',fmt="%s")
