@@ -22,7 +22,7 @@ These .pdb files will be aligned each other.
 
 These .pdb including pLDDT instead of b-factor.
 
-![image](https://user-images.githubusercontent.com/87903303/127006396-5ec09e1c-cbb6-4f8a-b914-d48c1e5c73c7.png)
+![image](https://user-images.githubusercontent.com/87903303/127021043-ba8f4d1e-c168-49d1-8ece-482e8a917399.png)
 
 --------------
 -d arguments was introduced.
@@ -55,7 +55,7 @@ How to Use
     $ python3 /path/to/storage//plddt2csv/plddt_align.py
 
 --------------
-This program generates [plddt.csv] and [relaxed_"current folder name"_?.pdb] 
+This program generates [plddt.csv] and [relaxed_"current folder name"_?.pdb] or [align_"current folder name"_?.pdb]
 
 form [features.pkl], [result_model_?.pkl] and [relaxed_model_?.pdb]
 
