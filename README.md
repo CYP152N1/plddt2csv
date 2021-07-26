@@ -10,9 +10,26 @@ https://youtu.be/0ozOPnC6IWk
 Update information
 --------------
 
+plddt_align.py was released
+
+    $ cd /path/to/output/of/Alphafold2 
+
+    $ python3 /path/to/storage/plddt2csv/plddt_align.py
+
+This program automatically generates [align_xxxx_?.pdb]s.
+
+These .pdb files will be aligned each other.
+
+These .pdb including pLDDT instead of b-factor.
+
+--------------
 -d arguments was introduced.
 
-ex) plddt2csv.py -d 1-30_53-
+    python3 plddt2csv.py -d 1-30_53-
+
+               or
+
+    python3 plddt_align.py -d 1-30_53-
 
 avarage pLDDT will be caliculate without residue number from 1 to 30 and from 53 to C-terminus. 
 
@@ -23,14 +40,17 @@ avarage pLDDT will be caliculate without residue number from 1 to 30 and from 53
 --------------
 How to Use
 --------------
-$ cd /path/to/storage/
+    $ cd /path/to/storage/
 
-$ git clone https://github.com/CYP152N1/plddt2csv
+    $ git clone https://github.com/CYP152N1/plddt2csv
 
-$ cd /path/to/output/of/Alphafold2
+    $ cd /path/to/output/of/Alphafold2
 
-$ python3 /path/to/storage/plddt2csv/plddt2csv.py
+    $ python3 /path/to/storage/plddt2csv/plddt2csv.py
+    
+                         or
 
+    $ python3 /path/to/storage//plddt2csv/plddt_align.py
 
 --------------
 This program generates [plddt.csv] and [relaxed_"current folder name"_?.pdb] 
