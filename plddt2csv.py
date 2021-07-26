@@ -135,7 +135,6 @@ def read():
                     pdd1=pd1[int(float(line[22:26].strip())-1)]
                     ll1+=line[0:60]+" "*(6-len(pdd1))+pdd1+line[66:]
                     if int(eres[int(float(line[22:26].strip())-1)])==1:
-                        print(eres[int(float(line[22:26].strip())-1)])
                         ss1+=line[0:60]+" "*(6-len(pdd1))+pdd1+line[66:]
                     else:
                         pass
@@ -146,7 +145,6 @@ def read():
                     pass
                 pass
             g1.close()
-            print(ss1)
             pass
         with open(cpass+"/relaxed_"+str(lpass[-1])+"_"+www+".pdb", mode='w') as i:
             i.write(ll1)
