@@ -235,7 +235,7 @@ def read():
         print("------------")
         xyz=np.zeros((1,3),dtype=float)
         liii=""
-        with open(cpass+"/relaxed_model_"+www+".pdb", mode='r') as g1:
+        with open(cpass+"/"+mname+"_"+www+".pdb", mode='r') as g1:
             for line in g1:
                 if line[0:4]=="ATOM":
                     xyz[::1]=0
