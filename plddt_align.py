@@ -27,6 +27,7 @@ print("------------")
 # Argument & Help
 parser = argparse.ArgumentParser(description="The program extract plddt from [result_model.pkl] to [.csv]")
 parser.add_argument('-i', default='result_model', help='input XXXXX if [XXXXX_Y.pkl]; ex) result_model (def.)')
+parser.add_argument('-m', default='relaxed_model', help='input ZZZZZ if [ZZZZZ_Y.pdb]; ex) result_model (def.)')
 parser.add_argument('-n', default='5', help='input Y if you want open [XXXXX_1.pkl,XXXXX_2.pkl ... ,XXXXX_5.pkl]; ex) 5 (def.)')
 parser.add_argument('-o', default='plddt', help='input XXXXX if you want to name the output [XXXXX.csv]; ex) plddt (def.)')
 parser.add_argument('-d', default='', help='ignoreed residue number for average pLDDTs caliculation to determined the ranking of models [1-5_56-75_105-135]; ex) "" (def.)')
@@ -41,6 +42,11 @@ args = parser.parse_args()
 iname=str(args.i)
 print("Input file name:"+str(iname)+"_?.pkl")
 print("It can be changed by [-i "+iname+"]")
+print("")
+
+mname=str(args.m)
+print("Input file name:"+str(mname)+"_?.pdb")
+print("It can be changed by [-m "+iname+"]")
 print("")
 
 # Number of models
@@ -117,7 +123,7 @@ def read():
     xyz1=np.zeros((4,3),dtype=float)
     for i in range(namen):
         www=str(int(float(i)+1))
-        with open(cpass+"/relaxed_model_"+www+".pdb", mode='r') as g1:
+        with open(cpass+"/"+mname+"_"+www+".pdb", mode='r') as g1:
             for line in g1:
                 if line[0:4]=="ATOM":
                     if o4==int(float(line[22:26].strip())):
