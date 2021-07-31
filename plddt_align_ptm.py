@@ -19,7 +19,10 @@ print("Start:"+str(sys.argv))
 print("Ver.2_(2021Jul.)")
 print("by Hiroki Onoda, YCU")
 print("------------")
-print("The program extract plddt values from [result_model.pkl] to [.csv] ")
+print("The program extracts alignd model with plddt calue in b-factor using [result_model_?_ptm.pkl] and [.pdb] ")
+print("The program extracts pae plddt values from [result_model.pkl] to [.csv] ")
+print("Thanks Dr. Yoshitaka Moriwaki (@Ag_smith) for initially showing how to export predicted aligned error in alphafold2.")
+print("You need to change model_names to model_?_ptm from model_? at /Docker/run_docker.py.")
 print("for Alphafold2")
 print("------------")
 # Header
@@ -30,7 +33,7 @@ parser.add_argument('-i', default='result_model', help='input XXXXX if [XXXXX_Y.
 parser.add_argument('-m', default='relaxed_model', help='input ZZZZZ if [ZZZZZ_Y.pdb]; ex) result_model (def.)')
 parser.add_argument('-n', default='5', help='input Y if you want open [XXXXX_1.pkl,XXXXX_2.pkl ... ,XXXXX_5.pkl]; ex) 5 (def.)')
 parser.add_argument('-o', default='plddt', help='input XXXXX if you want to name the output [XXXXX.csv]; ex) plddt (def.)')
-parser.add_argument('-d', default='', help='ignoreed residue number for average pLDDTs caliculation to determined the ranking of models [1-5_56-75_105-135]; ex) "" (def.)')
+parser.add_argument('-d', default='', help='ignored residue number for average pLDDTs caliculation to determined the ranking of models [1-5_56-75_105-135]; ex) "" (def.)')
 args = parser.parse_args()
 # Argument & Help
 
@@ -58,10 +61,10 @@ print("Output file name:"+str(oname)+".csv")
 print("It can be changed by [-o "+oname+"]")
 print("")
 
-# Igunore residue
+# Ignore residue
 dres=str(args.d)
 ures=dres.split("_")
-print("Igunore residues:"+str(ures))
+print("Ignore residues:"+str(ures))
 sres=[]
 for i in range(len(ures)):
     hres=[]
