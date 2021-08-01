@@ -270,8 +270,12 @@ def read():
         # Read pLDDT from result_model_?.pkl
         with open(cpass+"/"+iname+"_"+www+"_ptm.pkl", 'rb') as c1:
             c1n=pickle.load(c1)
-            c1n_f = c1n['plddt'].astype(np.float32)
+            # Extract PAE
             pae = c1n['predicted_aligned_error'].astype(np.float32)
+            np.savetxt(cpass+'/'+oname+'_pae_'+www+'.csv',pae,delimiter=',',fmt="%s")
+            print("Save:"+cpass+'/'+oname+'_pae_'+www+'.csv')
+            # Extract PAE
+            c1n_f = c1n['plddt'].astype(np.float32)
             # Caliculation of average pLDDT
             na_mul=c1n_f*eres_f
             plddts[i]=np.sum(na_mul)/np.sum(eres_f)
@@ -332,7 +336,7 @@ def read():
     
     # Write pLDDT in csv file  
     np.savetxt(cpass+'/'+oname+'_plddt.csv',twoda,delimiter=',',fmt="%s")
-    np.savetxt(cpass+'/'+oname+'_pae.csv',pae,delimiter=',',fmt="%s")
+    print("Save:"+cpass+'/'+oname+'_plddt.csv')
     pass
 
 
