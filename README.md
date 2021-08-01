@@ -24,7 +24,7 @@ Update information
 
 You can visualize using Excel like the figure shown below.
 
-![image](https://user-images.githubusercontent.com/87903303/127755745-abd6a406-1df9-4a08-8f80-75e1e5a979bb.png)
+![image](https://user-images.githubusercontent.com/87903303/127757026-6a597ba8-23a0-4201-bd6e-c2e5fcc3e81d.png)
 
 Thanks Dr. Yoshitaka Moriwaki (@Ag_smith) for initially showing how to export predicted aligned error in alphafold2.
 
@@ -89,7 +89,7 @@ These .pdb files will be aligned each other.
 
 These .pdb including pLDDT instead of b-factor.
 
-![image](https://user-images.githubusercontent.com/87903303/127021043-ba8f4d1e-c168-49d1-8ece-482e8a917399.png)
+![image](https://user-images.githubusercontent.com/87903303/127757060-8d7081f6-6b15-4c92-b133-6988f1c50d66.png)
 
 --------------
 -d arguments was introduced.
