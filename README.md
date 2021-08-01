@@ -16,7 +16,7 @@ https://youtu.be/0ozOPnC6IWk
 Update information
 --------------
 
-"pae2csv.py", "plddt_align_ptm.py", and "ptm_docker.py" were released
+"pae2csv.py", "pae2png.py", "plddt_align_ptm.py", and "ptm_docker.py" were released
 
 [pae2csv.py] generates [p2c_pae_?.csv] & [p2x_plddt.csv].
 
@@ -61,6 +61,18 @@ If you perform "run_docker_ptm.py" instead of "run_docker.py"_ptm,
 
 you cannot use plddt_align.py and plddt2csv.py
 
+![image](https://user-images.githubusercontent.com/87903303/127762914-224b0ddb-b785-4263-aa51-0fb606e1176f.png)
+
+
+[pae2png.py] generates [p2c_pae_?.png] using matplotlib & seaborn.
+
+You need to perform below comands.
+
+    $ pip3 install matplotlib
+    
+    $ pip3 install seaborn
+
+![image](https://user-images.githubusercontent.com/87903303/127762852-eb4047fd-8df9-40d7-b1a5-ad44b2e5aae1.png)
 
 --------------
 
