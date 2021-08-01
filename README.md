@@ -45,7 +45,7 @@ model_names of [run_docker_ptm.py] was changed to "model_?_ptm" from "model_?"
     
     $ python3 docker/run_docker_ptm.py --fasta_paths=/path/to/.fasta --max_template_date=2020-05-14
     
-If you purforme "run_docker_ptm.py" instead of "run_docker.py", 
+If you performe "run_docker_ptm.py" instead of "run_docker.py", 
 
 result_model_?_ptm.pkl posesses predicted_aligned_error value.
     
