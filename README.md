@@ -1,5 +1,5 @@
 # plddt2csv
-Extract the plddt value of Alphafold2 from .pkl to .csv & .pdb file.
+Extract the PAE & pLDDT value of Alphafold2 from .pkl to .csv & .pdb file.
 
 This program was only checked by my environment. (centos7, python3)
 
