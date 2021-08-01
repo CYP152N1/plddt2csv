@@ -26,7 +26,7 @@ You can visualize using Excel like the figure shown below.
 
 ![image](https://user-images.githubusercontent.com/87903303/127757080-41d251db-6b8f-4499-bf2a-f0ab71b953c9.png)
 
-Thanks Dr. Yoshitaka Moriwaki (@Ag_smith) for initially showing how to export predicted aligned error in alphafold2.
+Thanks Dr. Yoshitaka Moriwaki (@Ag_smith) for showing how to export predicted aligned error in alphafold2.
 
 
 To extract "PAE" into [result_model_?.pkl], we need to change [docker/run_docker.py]
