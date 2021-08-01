@@ -57,9 +57,24 @@ result_model_?_ptm.pkl posesses predicted_aligned_error value.
 
     $ python3 /path/to/storage/plddt2csv/plddt_align_ptm.py
     
-If you purforme "run_docker_ptm.py" instead of "run_docker.py", 
+If you perform "run_docker_ptm.py" instead of "run_docker.py"_ptm, 
 
 you cannot use plddt_align.py and plddt2csv.py
+
+
+--------------
+
+-m arguments was introduced in plddt_align.py & plddt_align_ptm.py.
+
+If you don't perform amber_minimization,
+
+or amber_minimization was clashed on first model
+
+    python3 plddt_align.py -m unrelaxed_model
+
+               or
+
+    python3 plddt_align.py -m unrelaxed_model -n 1
 
 --------------
 plddt_align.py was released
