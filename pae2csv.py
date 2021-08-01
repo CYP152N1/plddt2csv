@@ -20,7 +20,6 @@ print("Ver.2_(2021Jul.)")
 print("by Hiroki Onoda, YCU")
 print("------------")
 print("The program extract pae and plddt values from [result_model_?_ptm.pkl] to [.csv] ")
-print("Thanks Dr. Yoshitaka Moriwaki (@Ag_smith) for initially showing how to export predicted aligned error in alphafold2.")
 print("You need to change model name to model_?_ptm from model_? at Docker/run_docker.py")
 print("for Alphafold2")
 print("------------")
@@ -119,8 +118,12 @@ def read():
         # Read pLDDT from result_model_?.pkl
         with open(cpass+"/"+iname+"_"+www+"_ptm.pkl", 'rb') as c1:
             c1n=pickle.load(c1)
-            c1n_f = c1n['plddt'].astype(np.float32)
+            # Extract PAE
             pae = c1n['predicted_aligned_error'].astype(np.float32)
+            np.savetxt(cpass+'/'+oname+'_pae_'+www+'.csv',pae,delimiter=',',fmt="%s")
+            print("Save:"+cpass+'/'+oname+'_pae_'+www+'.csv')
+            # Extract PAE
+            c1n_f = c1n['plddt'].astype(np.float32)
             # Caliculation of average pLDDT
             na_mul=c1n_f*eres_f
             plddts[i]=np.sum(na_mul)/np.sum(eres_f)
@@ -146,7 +149,7 @@ def read():
     
     # Write pLDDT in csv file  
     np.savetxt(cpass+'/'+oname+'_plddt.csv',twoda,delimiter=',',fmt="%s")
-    np.savetxt(cpass+'/'+oname+'_pae.csv',pae,delimiter=',',fmt="%s")
+    print("Save:"+cpass+'/'+oname+'_plddt.csv')
     pass
 
 
