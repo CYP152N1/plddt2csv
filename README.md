@@ -16,6 +16,52 @@ https://youtu.be/0ozOPnC6IWk
 Update information
 --------------
 
+"pae2csv.py", "plddt_align_ptm.py", and "ptm_docker.py" were released
+
+[pae2csv.py] generates [p2c_pae_?.csv] & [p2x_plddt.csv].
+
+[p2c_pae_?.csv] contains Predicted Aligned Error (PAE). 
+
+You can visualize using Excel like the figure shown below.
+
+![image](https://user-images.githubusercontent.com/87903303/127755745-abd6a406-1df9-4a08-8f80-75e1e5a979bb.png)
+
+Thanks Dr. Yoshitaka Moriwaki (@Ag_smith) for initially showing how to export predicted aligned error in alphafold2.
+
+
+To extract "PAE" into [result_model_?.pkl], we need to change [docker/run_docker.py]
+
+[ptm_docker.py] creates run_docker_ptm.py from your run_docker.py.
+
+model_names of [run_docker_ptm.py] was changed to "model_?_ptm" from "model_?" 
+
+    $ cd /path/to/storage/
+
+    $ git clone https://github.com/CYP152N1/plddt2csv
+
+    $ cd /path/to/Alphafold2
+   
+    $ python3 /path/to/Alphafold2/ptm_docker.py
+    
+    $ python3 docker/run_docker_ptm.py --fasta_paths=/path/to/.fasta --max_template_date=2020-05-14
+    
+If you purforme "run_docker_ptm.py" instead of "run_docker.py", 
+
+result_model_?_ptm.pkl posesses predicted_aligned_error value.
+    
+    $ cd /path/to/output/of/Alphafold2/
+    
+    $ python3 /path/to/storage/plddt2csv/pae2csv.py
+
+               or
+
+    $ python3 /path/to/storage/plddt2csv/plddt_align_ptm.py
+    
+If you purforme "run_docker_ptm.py" instead of "run_docker.py", 
+
+you cannot use plddt_align.py and plddt2csv.py
+
+--------------
 plddt_align.py was released
 
     $ cd /path/to/output/of/Alphafold2 
@@ -58,7 +104,7 @@ How to Use
     
                          or
 
-    $ python3 /path/to/storage//plddt2csv/plddt_align.py
+    $ python3 /path/to/storage/plddt2csv/plddt_align.py
 
 --------------
 This program generates [plddt.csv] and [relaxed_"current folder name"_?.pdb] or [align_"current folder name"_?.pdb]
