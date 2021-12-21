@@ -16,6 +16,27 @@ https://youtu.be/0ozOPnC6IWk
 Update information
 --------------
 
+"align_mono.py" and "align_ptm.py" were released
+
+This version is draft version for alphafold 2.1.1. to align .pdb files  
+
+this script can be parformed without any argument.
+
+    $ cd /path/to/output/directory
+    
+    $ python align_mono.py
+
+It is omitted that the inthersion of pLDDT at b-factor on ".pdb format", 
+because pLDDT was already writtened in out put file of AF 2.1.    
+
+additional argument can be observed by 
+    
+    $ python align_mono.py -h
+
+multimer version will be released within today.
+
+--------------
+
 "pae2csv.py", "pae2png.py", "plddt_align_ptm.py", and "ptm_docker.py" were released
 
 [pae2csv.py] generates [p2c_pae_?.csv] & [p2x_plddt.csv].
