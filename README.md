@@ -16,11 +16,11 @@ https://youtu.be/0ozOPnC6IWk
 Update information
 --------------
 
-"align_mono.py" and "align_ptm.py" were released
+"align_mono.py" and "align_ptm.py" were released.
 
 This version is draft version for alphafold 2.1.1. to align .pdb files  
 
-this script can be parformed without any argument.
+This script can be parformed without any argument.
 
     $ cd /path/to/output/directory
     
