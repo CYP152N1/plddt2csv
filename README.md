@@ -16,9 +16,9 @@ https://youtu.be/0ozOPnC6IWk
 Update information
 --------------
 
-"align_mono.py" and "align_ptm.py" were released.
+"align_multi.py", "align_mono.py" and "align_ptm.py" were released.
 
-This version is draft version for alphafold 2.1.1. to align .pdb files  
+This version was created for alphafold 2.1.1. to align .pdb files  
 
 This script can be parformed without any argument.
 
@@ -33,7 +33,13 @@ additional argument can be observed by
     
     $ python align_mono.py -h
 
-multimer version will be released within today.
+multimer version can be select alinment chain by
+
+    $ python align_multi.py -alc 2
+
+The default value of -arc argument is 1 for the alignment of A chain. 
+
+These alignment program will be separated to another programs, because program content and name don't match.
 
 --------------
 
