@@ -32,9 +32,9 @@ parser.add_argument('-m', default='relaxed_model',  help='input ZZZZZ if [ZZZZZ_
 parser.add_argument('-n', default='5',              help='input Y if you want open [XXXXX_1_ptm.pkl,XXXXX_2_ptm.pkl ... ,XXXXX_5_ptm.pkl]; ex) 5 (def.)')
 parser.add_argument('-d', default='',               help='!!this argument is not suport for chain number!!. ignored residue number for average pLDDTs caliculation to determined the ranking of models [1-5_56-75_105-135]; ex) "" (def.)')
 parser.add_argument('-alc', default="1",            help='Change chain number from first chain to other chain defalt: 1')
-parser.add_argument('-al1', default=0,              help='Center the mid point of al1 and al2, the point (al1) shift on x-axis')
-parser.add_argument('-al2', default=0,              help='Center the mid point of al1 and al2, the point (al2) shift on x-asis and opozit site of al1')
-parser.add_argument('-al3', default=0,              help='the point (al3) shift on xy-plane')
+parser.add_argument('-al1', default=0,              help='Center the mid point of al1 and al3, the point (al1) shift on x-axis')
+parser.add_argument('-al2', default=0,              help='The point (al2) shift on xy-plane')
+parser.add_argument('-al3', default=0,              help='Center the mid point of al1 and al3, the point (al3) shift on x-asis and opozit site of al1')
 args = parser.parse_args()
 # Argument & Help
 
@@ -101,7 +101,7 @@ def read():
         rein=np.array(list(cnn['asym_id']))
         twoda=rein
         renn=np.array(list(cnn['residue_index']))
-        twoda=np.column_stack((twoda,renn))
+        twoda=np.column_stack((twoda,renn+1))
         aatp=np.array(list(cnn['aatype']))
         aadic={0: "A", 1: "R", 2: "N", 3: "D", 4: "C", 5: "Q", 6: "E", 7: "G", 8: "H", 9: "I", 10: "L", 11: "K", 12: "M", 13: "F", 14: "P", 15: "S", 16: "T", 17: "W", 18: "Y", 19: "V", 20: "X", 21: "X", 22: "X", 23: "X"}
         aanp=np.array(list(aadic.values()))

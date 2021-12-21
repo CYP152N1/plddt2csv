@@ -30,9 +30,9 @@ parser.add_argument('-i', default='result_model',   help='input XXXXX if [XXXXX_
 parser.add_argument('-m', default='relaxed_model',  help='input ZZZZZ if [ZZZZZ_Y.pdb]; ex) relaxed_model (def.)')
 parser.add_argument('-n', default='5',              help='input Y if you want open [XXXXX_1.pkl,XXXXX_2.pkl ... ,XXXXX_5.pkl]; ex) 5 (def.)')
 parser.add_argument('-d', default='',               help='ignoreed residue number for average pLDDTs caliculation to determined the ranking of models [1-5_56-75_105-135]; ex) "" (def.)')
-parser.add_argument('-al1', default=0,              help='Center the mid point of al1 and al2, the point (al1) shift on x-axis')
-parser.add_argument('-al2', default=0,              help='Center the mid point of al1 and al2, the point (al2) shift on x-asis and opozit site of al1')
-parser.add_argument('-al3', default=0,              help='the point (al3) shift on xy-plane')
+parser.add_argument('-al1', default=0,              help='Center the mid point of al1 and al3, the point (al1) shift on x-axis')
+parser.add_argument('-al2', default=0,              help='The point (al2) shift on xy-plane')
+parser.add_argument('-al3', default=0,              help='Center the mid point of al1 and al3, the point (al3) shift on x-asis and opozit site of al1')
 args = parser.parse_args()
 # Argument & Help
 
