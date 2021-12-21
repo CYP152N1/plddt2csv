@@ -19,17 +19,19 @@ print("Start:"+str(sys.argv))
 print("Ver.2.1_(2021Dec.)")
 print("by Hiroki Onoda, YCU")
 print("------------")
-print("The program align the output of AF2.1_monomer")
+print("The program align output pdb file and extract pae plddt values from [result_model_multimer.pkl] to [.csv] ")
+print("Thanks Dr. Yoshitaka Moriwaki (@Ag_smith) for initially showing how to export predicted aligned error in alphafold2.")
 print("for Alphafold2.1.1")
 print("------------")
 # Header
 
 # Argument & Help
-parser = argparse.ArgumentParser(            description="The program align the output of AF2.1_monomer")
-parser.add_argument('-i', default='result_model',   help='input XXXXX if [XXXXX_Y.pkl]; ex) result_model (def.)')
-parser.add_argument('-m', default='relaxed_model',  help='input ZZZZZ if [ZZZZZ_Y.pdb]; ex) relaxed_model (def.)')
-parser.add_argument('-n', default='5',              help='input Y if you want open [XXXXX_1.pkl,XXXXX_2.pkl ... ,XXXXX_5.pkl]; ex) 5 (def.)')
-parser.add_argument('-d', default='',               help='ignoreed residue number for average pLDDTs caliculation to determined the ranking of models [1-5_56-75_105-135]; ex) "" (def.)')
+parser = argparse.ArgumentParser(            description="The program extract pae from [result_model.pkl] to [.csv]")
+parser.add_argument('-i', default='result_model',   help='input XXXXX if [XXXXX_Y_ptm.pkl]; ex) result_model (def.)')
+parser.add_argument('-m', default='relaxed_model',  help='input ZZZZZ if [ZZZZZ_Y_ptm.pdb]; ex) result_model (def.)')
+parser.add_argument('-n', default='5',              help='input Y if you want open [XXXXX_1_ptm.pkl,XXXXX_2_ptm.pkl ... ,XXXXX_5_ptm.pkl]; ex) 5 (def.)')
+parser.add_argument('-d', default='',               help='!!this argument is not suport for chain number!!. ignored residue number for average pLDDTs caliculation to determined the ranking of models [1-5_56-75_105-135]; ex) "" (def.)')
+parser.add_argument('-alc', default="1",            help='Change chain number from first chain to other chain defalt: 1')
 parser.add_argument('-al1', default=0,              help='Center the mid point of al1 and al2, the point (al1) shift on x-axis')
 parser.add_argument('-al2', default=0,              help='Center the mid point of al1 and al2, the point (al2) shift on x-asis and opozit site of al1')
 parser.add_argument('-al3', default=0,              help='the point (al3) shift on xy-plane')
@@ -42,22 +44,27 @@ args = parser.parse_args()
 
 # Input file name
 iname=str(args.i)
-print("Input file name:"+str(iname)+"_?.pkl")
+print("Input file name:"+str(iname)+"_?_multimer.pkl")
 print("It can be changed by [-i "+iname+"]")
 print("")
 
 mname=str(args.m)
-print("Input file name:"+str(mname)+"_?.pdb")
+print("Input file name:"+str(mname)+"_?_multimer.pdb")
 print("It can be changed by [-m "+mname+"]")
 print("")
 
 # Number of models
 namen=int(str(args.n))
 
-# Igunore residue
+# Output file name
+#oname=str(args.o)
+#print("Output file name:"+oname+".csv")
+#print("")
+
+# Ignore residue
 dres=str(args.d)
 ures=dres.split("_")
-print("Igunore residues:"+str(ures))
+print("Ignore residues:"+str(ures))
 sres=[]
 for i in range(len(ures)):
     hres=[]
@@ -72,6 +79,11 @@ mres_f = mres.astype(np.float32)
 ares=fres_f-mres_f
 print("ON/OFF pisition:"+str(ares))
 
+
+# Number of models
+chn=int(str(args.alc))
+
+
 #l-----------------------------------------------l
 #l           Valiable information                l
 #l-----------------------------------------------l
@@ -85,9 +97,17 @@ def read():
     with open(cpass+"/features.pkl", 'rb') as cn:
         cnn=pickle.load(cn)
         sequ=cnn['residue_index']
-        rein=np.array(list(str(cnn['sequence'][0])[2:-1]))
-        print(str(rein))
-        twoda=np.column_stack((sequ+1,rein))
+        print(str(cnn['asym_id']))
+        rein=np.array(list(cnn['asym_id']))
+        twoda=rein
+        renn=np.array(list(cnn['residue_index']))
+        twoda=np.column_stack((twoda,renn))
+        aatp=np.array(list(cnn['aatype']))
+        aadic={0: "A", 1: "R", 2: "N", 3: "D", 4: "C", 5: "Q", 6: "E", 7: "G", 8: "H", 9: "I", 10: "L", 11: "K", 12: "M", 13: "F", 14: "P", 15: "S", 16: "T", 17: "W", 18: "Y", 19: "V", 20: "X", 21: "X", 22: "X", 23: "X"}
+        aanp=np.array(list(aadic.values()))
+        aala=np.searchsorted(list(aadic), aatp)
+        twoda=np.column_stack((twoda,aanp[aala]))
+        print(str(aanp[aala]))
         cn.close()
         pass
     # Get sequence from features.pkl
@@ -114,48 +134,53 @@ def read():
 
     # Model alignment
     import math
-    o4=int(len(eres)/4)
+    f4=int(np.count_nonzero(rein == chn))
+    o4=int(f4/4)
     w4=int(o4*2)
     t4=int(o4*3)
-    xyz1=np.zeros((4,3),dtype=float)
-    
+    novch={"1":"A", "2":"B", "3":"C", "4":"D", "5":"E", "6":"F", "7":"G", "8":"H", "9":"I", "10":"J", "11":"K", "12":"L", "13":"M", "14":"N", "15":"O", "16":"P", "17":"Q", "18":"R", "19":"S", "20":"T", "21":"U", 22:"V", "23":"W", "24":"X", "25":"Y", "26":"Z"}
+    cf=novch[args.alc]
+
     if int(args.al1)>0:
-        if int(args.al1) < len(eres):
+        if int(args.al1) < f4:
             o4=int(args.al1)
     if int(args.al1)>0:
-        if int(args.al2) < len(eres):
+        if int(args.al2) < f4:
             w4=int(args.al2)
     if int(args.al1)>0:
-        if int(args.al3) < len(eres):
+        if int(args.al3) < f4:
             t4=int(args.al3)
 
+    xyz1=np.zeros((4,3),dtype=float)
     for i in range(namen):
         www=str(int(float(i)+1))
-        with open(cpass+"/"+mname+"_"+www+".pdb", mode='r') as g1:
+        with open(cpass+"/"+mname+"_"+www+"_multimer.pdb", mode='r') as g1:
             for line in g1:
                 if line[0:4]=="ATOM":
-                    if o4==int(float(line[22:26].strip())):
-                        if "CA"==line[12:16].strip():
-                            print(line)
-                            xyz1[0,0] = float(line[30:38].strip())
-                            xyz1[0,1] = float(line[38:46].strip())
-                            xyz1[0,2] = float(line[46:54].strip())
+                    if line[21:22]==cf:
+                        if o4==int(float(line[22:26].strip())):
+                            if "CA"==line[12:16].strip():
+                                print(line)
+                                xyz1[0,0] = float(line[30:38].strip())
+                                xyz1[0,1] = float(line[38:46].strip())
+                                xyz1[0,2] = float(line[46:54].strip())
+                                pass
                             pass
-                        pass
-                    elif w4==int(float(line[22:26].strip())):
-                        if "CA"==line[12:16].strip():
-                            print(line)
-                            xyz1[1,0] = float(line[30:38].strip())
-                            xyz1[1,1] = float(line[38:46].strip())
-                            xyz1[1,2] = float(line[46:54].strip())
+                        elif w4==int(float(line[22:26].strip())):
+                            if "CA"==line[12:16].strip():
+                                print(line)
+                                xyz1[1,0] = float(line[30:38].strip())
+                                xyz1[1,1] = float(line[38:46].strip())
+                                xyz1[1,2] = float(line[46:54].strip())
+                                pass
                             pass
-                        pass
-                    elif t4==int(float(line[22:26].strip())):
-                        if "CA"==line[12:16].strip():
-                            print(line)
-                            xyz1[2,0] = float(line[30:38].strip())
-                            xyz1[2,1] = float(line[38:46].strip())
-                            xyz1[2,2] = float(line[46:54].strip())
+                        elif t4==int(float(line[22:26].strip())):
+                            if "CA"==line[12:16].strip():
+                                print(line)
+                                xyz1[2,0] = float(line[30:38].strip())
+                                xyz1[2,1] = float(line[38:46].strip())
+                                xyz1[2,2] = float(line[46:54].strip())
+                                pass
                             pass
                         pass
                     else:
@@ -243,7 +268,7 @@ def read():
         print("------------")
         xyz=np.zeros((1,3),dtype=float)
         liii=""
-        with open(cpass+"/"+mname+"_"+www+".pdb", mode='r') as g1:
+        with open(cpass+"/"+mname+"_"+www+"_multimer.pdb", mode='r') as g1:
             for line in g1:
                 if line[0:4]=="ATOM":
                     xyz[::1]=0
@@ -260,7 +285,7 @@ def read():
                     liii+=line
                 pass
             pass
-        with open(cpass+"/align_"+str(lpass[-1])+"_m"+www+".pdb", mode='w') as i:
+        with open(cpass+"/align_"+str(lpass[-1])+"_m"+www+"_multi.pdb", mode='w') as i:
             i.write(liii)
             i.close()
             pass
@@ -273,8 +298,13 @@ def read():
     for i in range(namen):
         www=str(int(float(i)+1))
         # Read pLDDT from result_model_?.pkl
-        with open(cpass+"/"+iname+"_"+www+".pkl", 'rb') as c1:
+        with open(cpass+"/"+iname+"_"+www+"_multimer.pkl", 'rb') as c1:
             c1n=pickle.load(c1)
+            # Extract PAE
+            pae = c1n['predicted_aligned_error'].astype(np.float32)
+            np.savetxt(cpass+'/'+str(lpass[-1])+'_pae_m'+www+'_multi.csv',pae,delimiter=',',fmt="%s")
+            print("Save:"+cpass+'/'+str(lpass[-1])+'_pae_m'+www+'_multi.csv')
+            # Extract PAE
             c1n_f = c1n['plddt'].astype(np.float32)
             # Caliculation of average pLDDT
             na_mul=c1n_f*eres_f
@@ -286,9 +316,10 @@ def read():
             c1.close()
             pass
         # Read pLDDT from result_model_?.pkl
-        
-        print("Save:"+cpass+"/align_"+str(lpass[-1])+"_m"+www+".pdb")
-#        print("Save:"+cpass+"/"+str(lpass[-1])+"_"+www+"_pLDDT"+str(int(np.sum(na_mul)/np.sum(eres_f)))+".pdb")
+          
+        # Write pLDDT in the PDB_Bfactor
+        print("Save:"+cpass+"/align_"+str(lpass[-1])+"_m"+www+"_multi.pdb")
+#        print("Save:"+cpass+"/"+str(lpass[-1])+"_"+www+"_pLDDT"+str(int(np.sum(na_mul)/np.sum(eres_f)))+"_ptm.pdb")
         pass
     print("------------")
     
@@ -309,6 +340,7 @@ def read():
     np.savetxt(cpass+'/'+str(lpass[-1])+'_plddt.csv',twoda,delimiter=',',fmt="%s")
     print("Save:"+cpass+'/'+str(lpass[-1])+'_plddt.csv')
     pass
+
 
 
 #l-----------------------------------------------l

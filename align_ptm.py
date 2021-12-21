@@ -27,12 +27,14 @@ print("------------")
 # Header
 
 # Argument & Help
-parser = argparse.ArgumentParser(description="The program extract pae from [result_model.pkl] to [.csv]")
-parser.add_argument('-i', default='result_model', help='input XXXXX if [XXXXX_Y_ptm.pkl]; ex) result_model (def.)')
-parser.add_argument('-m', default='relaxed_model', help='input ZZZZZ if [ZZZZZ_Y_ptm.pdb]; ex) result_model (def.)')
-parser.add_argument('-n', default='5', help='input Y if you want open [XXXXX_1_ptm.pkl,XXXXX_2_ptm.pkl ... ,XXXXX_5_ptm.pkl]; ex) 5 (def.)')
-#parser.add_argument('-o', default='plddt', help='input XXXXX if you want to name the output [XXXXX.csv]; ex) plddt (def.)')
-parser.add_argument('-d', default='', help='ignored residue number for average pLDDTs caliculation to determined the ranking of models [1-5_56-75_105-135]; ex) "" (def.)')
+parser = argparse.ArgumentParser(            description="The program extract pae from [result_model.pkl] to [.csv]")
+parser.add_argument('-i', default='result_model',   help='input XXXXX if [XXXXX_Y_ptm.pkl]; ex) result_model (def.)')
+parser.add_argument('-m', default='relaxed_model',  help='input ZZZZZ if [ZZZZZ_Y_ptm.pdb]; ex) result_model (def.)')
+parser.add_argument('-n', default='5',              help='input Y if you want open [XXXXX_1_ptm.pkl,XXXXX_2_ptm.pkl ... ,XXXXX_5_ptm.pkl]; ex) 5 (def.)')
+parser.add_argument('-d', default='',               help='ignored residue number for average pLDDTs caliculation to determined the ranking of models [1-5_56-75_105-135]; ex) "" (def.)')
+parser.add_argument('-al1', default=0,              help='Center the mid point of al1 and al2, the point (al1) shift on x-axis')
+parser.add_argument('-al2', default=0,              help='Center the mid point of al1 and al2, the point (al2) shift on x-asis and opozit site of al1')
+parser.add_argument('-al3', default=0,              help='the point (al3) shift on xy-plane')
 args = parser.parse_args()
 # Argument & Help
 
@@ -53,11 +55,6 @@ print("")
 
 # Number of models
 namen=int(str(args.n))
-
-# Output file name
-#oname=str(args.o)
-#print("Output file name:"+oname+".csv")
-#print("")
 
 # Ignore residue
 dres=str(args.d)
@@ -91,6 +88,7 @@ def read():
         cnn=pickle.load(cn)
         sequ=cnn['residue_index']
         rein=np.array(list(str(cnn['sequence'][0])[2:-1]))
+        print(str(rein))
         twoda=np.column_stack((sequ+1,rein))
         cn.close()
         pass
@@ -121,6 +119,17 @@ def read():
     o4=int(len(eres)/4)
     w4=int(o4*2)
     t4=int(o4*3)
+    
+    if int(args.al1)>0:
+        if int(args.al1) < len(eres):
+            o4=int(args.al1)
+    if int(args.al1)>0:
+        if int(args.al2) < len(eres):
+            w4=int(args.al2)
+    if int(args.al1)>0:
+        if int(args.al3) < len(eres):
+            t4=int(args.al3)
+    
     xyz1=np.zeros((4,3),dtype=float)
     for i in range(namen):
         www=str(int(float(i)+1))
@@ -253,7 +262,7 @@ def read():
                     liii+=line
                 pass
             pass
-        with open(cpass+"/align_"+str(lpass[-1])+"_"+www+"_ptm.pdb", mode='w') as i:
+        with open(cpass+"/align_"+str(lpass[-1])+"_m"+www+"_ptm.pdb", mode='w') as i:
             i.write(liii)
             i.close()
             pass
@@ -270,8 +279,8 @@ def read():
             c1n=pickle.load(c1)
             # Extract PAE
             pae = c1n['predicted_aligned_error'].astype(np.float32)
-            np.savetxt(cpass+'/'+str(lpass[-1])+'_pae_'+www+'.csv',pae,delimiter=',',fmt="%s")
-            print("Save:"+cpass+'/'+str(lpass[-1])+'_pae_'+www+'.csv')
+            np.savetxt(cpass+'/'+str(lpass[-1])+'_pae_m'+www+'_ptm.csv',pae,delimiter=',',fmt="%s")
+            print("Save:"+cpass+'/'+str(lpass[-1])+'_pae_m'+www+'_ptm.csv')
             # Extract PAE
             c1n_f = c1n['plddt'].astype(np.float32)
             # Caliculation of average pLDDT
@@ -285,37 +294,8 @@ def read():
             pass
         # Read pLDDT from result_model_?.pkl
         
-#        ll1=""
-#        ss1=""
-#        # Write pLDDT in the PDB_Bfactor
-#        with open(cpass+"/align_"+str(lpass[-1])+"_"+www+"_ptm.pdb", mode='r') as g1:
-#            for line in g1:
-#                if  line[0:4]=="ATOM":
-#                    pdd1=pd1[int(float(line[22:26].strip())-1)]
-#                    ll1+=line[0:60]+" "*(6-len(pdd1))+pdd1+line[66:]
-#                    if int(eres[int(float(line[22:26].strip())-1)])==1:
-#                        ss1+=line[0:60]+" "*(6-len(pdd1))+pdd1+line[66:]
-#                    else:
-#                        pass
-#                    pass
-#                else:
-#                    ll1+=line
-#                    ss1+=line
-#                    pass
-#                pass
-#            g1.close()
-#            pass
-#        with open(cpass+"/align_"+str(lpass[-1])+"_"+www+"_ptm.pdb", mode='w') as i:
-#            i.write(ll1)
-#            i.close()
-#            pass
-#        with open(cpass+"/"+str(lpass[-1])+"_"+www+"_pLDDT"+str(int(np.sum(na_mul)/np.sum(eres_f)))+"_ptm.pdb", mode='w') as i:
-#            i.write(ss1)
-#            i.close()
-#            pass
         # Write pLDDT in the PDB_Bfactor
-        print("Save:"+cpass+"/align_"+str(lpass[-1])+"_"+www+"_ptm.pdb")
-#        print("Save:"+cpass+"/"+str(lpass[-1])+"_"+www+"_pLDDT"+str(int(np.sum(na_mul)/np.sum(eres_f)))+"_ptm.pdb")
+        print("Save:"+cpass+"/align_"+str(lpass[-1])+"_m"+www+"_ptm.pdb")
         pass
     print("------------")
     
