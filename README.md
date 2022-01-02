@@ -5,6 +5,7 @@ Alinment program of .pdb files were updated for Alphafold ver. 2.1.1
 
 https://github.com/CYP152N1/AF2align
 
+--------------
 
 Introduction movie was upload on Youtube.
 
