@@ -1,7 +1,9 @@
 # plddt2csv
 Extract the PAE & pLDDT value of Alphafold ver. 2.0.0 from .pkl to .csv & .pdb file.
 
-Alinment program of .pdb files were updated for Alphafold ver. 2.1.1 (align_mono.py, align_ptm.py, align_multi.py)
+Alinment program of .pdb files were updated for Alphafold ver. 2.1.1 
+
+(align_mono.py, align_ptm.py, align_multi.py)
 
 https://github.com/CYP152N1/AF2align
 
